@@ -2,10 +2,12 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { CustomerSignIn } from './components/CustomerSignIn';
 import { AdminSignIn } from './components/AdminSignIn';
+import { CashierSignIn } from './components/CashierSignIn';
 import { CustomerSignUp } from './components/CustomerSignUp';
 import { AdminSignUp } from './components/AdminSignUp';
 import { AdminPage } from './pages/AdminPage';
 import { CustomerPage } from './pages/CustomerPage';
+import { CashierPage } from './pages/CashierPage';
 import { PaymentSuccess } from './pages/PaymentSuccess';
 import { PaymentCancel } from './pages/PaymentCancel';
 import { NotFound } from './pages/NotFound';
@@ -26,6 +28,7 @@ function App() {
     <Routes>
       <Route path="/login/customer" element={<CustomerSignIn />} />
       <Route path="/login/admin" element={<AdminSignIn />} />
+      <Route path="/login/cashier" element={<CashierSignIn />} />
       <Route path="/signup/customer" element={<CustomerSignUp />} />
       <Route path="/signup/admin" element={<AdminSignUp />} />
 
@@ -36,6 +39,12 @@ function App() {
         <Route path="/admin/menu" element={<AdminPage />} />
         <Route path="/admin/stock" element={<AdminPage />} />
         <Route path="/admin/staff-logs" element={<AdminPage />} />
+        <Route path="/admin/cashiers" element={<AdminPage />} />
+      </Route>
+
+      <Route element={<ProtectedRoute requiredRole="cashier" />}>
+        <Route path="/cashier" element={<CashierPage />} />
+        <Route path="/cashier/complete-orders" element={<CashierPage />} />
       </Route>
 
       <Route element={<ProtectedRoute requiredRole="customer" />}>

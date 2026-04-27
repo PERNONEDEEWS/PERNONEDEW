@@ -1,29 +1,19 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { LayoutDashboard, Menu, Package, LogOut, Clock, CheckCircle, Menu as MenuIcon, X, ClipboardList, Users } from 'lucide-react';
-import { AdminDashboard } from './AdminDashboard';
-import { MenuManagement } from './MenuManagement';
-import { StockManagement } from './StockManagement';
-import { PendingOrders } from './PendingOrders';
-import { CompleteOrders } from './CompleteOrders';
-import { StaffLogs } from './StaffLogs';
-import { CashierManagement } from './CashierManagement';
+import { Clock, CheckCircle, LogOut, Menu as MenuIcon, X } from 'lucide-react';
+import { PendingOrders } from '../admin/PendingOrders';
+import { CompleteOrders } from '../admin/CompleteOrders';
 
-export function AdminLayout() {
+export function CashierLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { signOut, profile } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const getActiveTab = () => {
-    if (location.pathname.includes('/admin/pending-orders')) return 'pending-orders';
-    if (location.pathname.includes('/admin/complete-orders')) return 'complete-orders';
-    if (location.pathname.includes('/admin/menu')) return 'menu';
-    if (location.pathname.includes('/admin/stock')) return 'stock';
-    if (location.pathname.includes('/admin/staff-logs')) return 'staff-logs';
-    if (location.pathname.includes('/admin/cashiers')) return 'cashiers';
-    return 'dashboard';
+    if (location.pathname.includes('/cashier/complete-orders')) return 'complete-orders';
+    return 'pending-orders';
   };
 
   const activeTab = getActiveTab();
@@ -31,7 +21,7 @@ export function AdminLayout() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      navigate('/login/admin');
+      navigate('/login/cashier');
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -45,7 +35,7 @@ export function AdminLayout() {
       }}
       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition ${
         activeTab === tab
-          ? 'bg-gradient-to-r from-red-600 to-red-500 text-white'
+          ? 'bg-gradient-to-r from-teal-700 to-teal-600 text-white'
           : 'text-gray-700 hover:bg-gray-100'
       }`}
     >
@@ -56,7 +46,7 @@ export function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg">
+      <nav className="bg-gradient-to-r from-teal-700 to-teal-600 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
@@ -69,11 +59,11 @@ export function AdminLayout() {
               <img src="/180fdd1f-21ad-41df-89f8-a837bb6c7940-Photoroom.png" alt="MR. CHANGE" className="h-8 sm:h-10 md:h-12" />
               <div>
                 <h1 className="text-lg sm:text-2xl md:text-3xl font-bold">MR. CHANGE</h1>
-                <p className="text-xs sm:text-sm opacity-90 hidden sm:block">Admin Panel</p>
+                <p className="text-xs sm:text-sm opacity-90 hidden sm:block">Cashier Panel</p>
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
-              <span className="text-xs sm:text-sm hidden md:inline">Welcome, {profile?.full_name || 'Admin'}</span>
+              <span className="text-xs sm:text-sm hidden md:inline">Hello, {profile?.full_name || 'Cashier'}</span>
               <button
                 onClick={handleSignOut}
                 className="flex items-center gap-1 sm:gap-2 bg-white bg-opacity-20 px-2 py-2 sm:px-4 rounded-lg hover:bg-opacity-30 transition"
@@ -111,30 +101,14 @@ export function AdminLayout() {
               </button>
             </div>
             <nav className="space-y-2">
-              {navBtn('dashboard', '/admin', <LayoutDashboard className="w-5 h-5" />, 'Dashboard')}
-              {navBtn('menu', '/admin/menu', <Menu className="w-5 h-5" />, 'Menu Management')}
-              {navBtn('stock', '/admin/stock', <Package className="w-5 h-5" />, 'Stock Management')}
-
-              <div className="border-t border-gray-200 my-2 pt-2 space-y-2">
-                {navBtn('pending-orders', '/admin/pending-orders', <Clock className="w-5 h-5" />, 'Pending Orders')}
-                {navBtn('complete-orders', '/admin/complete-orders', <CheckCircle className="w-5 h-5" />, 'Complete Orders')}
-              </div>
-
-              <div className="border-t border-gray-200 my-2 pt-2 space-y-2">
-                {navBtn('cashiers', '/admin/cashiers', <Users className="w-5 h-5" />, 'Cashier Management')}
-                {navBtn('staff-logs', '/admin/staff-logs', <ClipboardList className="w-5 h-5" />, 'Staff Logs')}
-              </div>
+              {navBtn('pending-orders', '/cashier', <Clock className="w-5 h-5" />, 'Pending Orders')}
+              {navBtn('complete-orders', '/cashier/complete-orders', <CheckCircle className="w-5 h-5" />, 'Complete Orders')}
             </nav>
           </aside>
 
           <main className="flex-1">
-            {activeTab === 'dashboard' && <AdminDashboard />}
             {activeTab === 'pending-orders' && <PendingOrders />}
             {activeTab === 'complete-orders' && <CompleteOrders />}
-            {activeTab === 'menu' && <MenuManagement />}
-            {activeTab === 'stock' && <StockManagement />}
-            {activeTab === 'staff-logs' && <StaffLogs />}
-            {activeTab === 'cashiers' && <CashierManagement />}
           </main>
         </div>
       </div>
