@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 interface ProtectedRouteProps {
-  requiredRole?: 'admin' | 'customer' | 'cashier';
+  requiredRole?: 'admin' | 'customer';
 }
 
 export function ProtectedRoute({ requiredRole }: ProtectedRouteProps) {
@@ -17,19 +17,12 @@ export function ProtectedRoute({ requiredRole }: ProtectedRouteProps) {
   }
 
   if (!user || !profile) {
-    const loginPath = requiredRole === 'admin'
-      ? '/login/admin'
-      : requiredRole === 'cashier'
-        ? '/login/cashier'
-        : '/login/customer';
-    return <Navigate to={loginPath} replace />;
+    return <Navigate to={requiredRole === 'admin' ? '/login/admin' : '/login/customer'} replace />;
   }
 
   if (requiredRole && profile.role !== requiredRole) {
     if (profile.role === 'admin') {
       return <Navigate to="/admin" replace />;
-    } else if (profile.role === 'cashier') {
-      return <Navigate to="/cashier" replace />;
     } else {
       return <Navigate to="/customer" replace />;
     }

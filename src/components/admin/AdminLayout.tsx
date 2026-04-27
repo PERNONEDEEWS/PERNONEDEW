@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { LayoutDashboard, Menu, Package, LogOut, Clock, CheckCircle, Menu as MenuIcon, X, ClipboardList, Users } from 'lucide-react';
+import { LayoutDashboard, Menu, Package, LogOut, Clock, CheckCircle, Menu as MenuIcon, X, ClipboardList } from 'lucide-react';
 import { AdminDashboard } from './AdminDashboard';
 import { MenuManagement } from './MenuManagement';
 import { StockManagement } from './StockManagement';
 import { PendingOrders } from './PendingOrders';
 import { CompleteOrders } from './CompleteOrders';
 import { StaffLogs } from './StaffLogs';
-import { CashierManagement } from './CashierManagement';
 
 export function AdminLayout() {
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ export function AdminLayout() {
     if (location.pathname.includes('/admin/menu')) return 'menu';
     if (location.pathname.includes('/admin/stock')) return 'stock';
     if (location.pathname.includes('/admin/staff-logs')) return 'staff-logs';
-    if (location.pathname.includes('/admin/cashiers')) return 'cashiers';
     return 'dashboard';
   };
 
@@ -120,8 +118,7 @@ export function AdminLayout() {
                 {navBtn('complete-orders', '/admin/complete-orders', <CheckCircle className="w-5 h-5" />, 'Complete Orders')}
               </div>
 
-              <div className="border-t border-gray-200 my-2 pt-2 space-y-2">
-                {navBtn('cashiers', '/admin/cashiers', <Users className="w-5 h-5" />, 'Cashier Management')}
+              <div className="border-t border-gray-200 my-2 pt-2">
                 {navBtn('staff-logs', '/admin/staff-logs', <ClipboardList className="w-5 h-5" />, 'Staff Logs')}
               </div>
             </nav>
@@ -134,7 +131,6 @@ export function AdminLayout() {
             {activeTab === 'menu' && <MenuManagement />}
             {activeTab === 'stock' && <StockManagement />}
             {activeTab === 'staff-logs' && <StaffLogs />}
-            {activeTab === 'cashiers' && <CashierManagement />}
           </main>
         </div>
       </div>

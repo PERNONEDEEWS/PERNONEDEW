@@ -13,21 +13,21 @@ export interface Database {
         Row: {
           id: string
           email: string
-          role: 'admin' | 'customer' | 'cashier'
+          role: 'admin' | 'customer'
           full_name: string | null
           created_at: string
         }
         Insert: {
           id: string
           email: string
-          role?: 'admin' | 'customer' | 'cashier'
+          role?: 'admin' | 'customer'
           full_name?: string | null
           created_at?: string
         }
         Update: {
           id?: string
           email?: string
-          role?: 'admin' | 'customer' | 'cashier'
+          role?: 'admin' | 'customer'
           full_name?: string | null
           created_at?: string
         }
@@ -164,32 +164,6 @@ export interface Database {
           staff_name?: string
           admin_username?: string
           logged_in_at?: string
-        }
-      }
-      cashier_credentials: {
-        Row: {
-          id: string
-          profile_id: string
-          full_name: string
-          id_number: string
-          created_by: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          profile_id: string
-          full_name: string
-          id_number: string
-          created_by: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          profile_id?: string
-          full_name?: string
-          id_number?: string
-          created_by?: string
-          created_at?: string
         }
       }
     }
